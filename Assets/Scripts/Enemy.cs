@@ -8,20 +8,34 @@ public class Enemy : Character
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+
+        if (playerObject != null)
+        {
+            player = playerObject.transform;
+        }
     }
 
     void Update()
     {
-        if (player != null)
+        if (player == null)
         {
-            transform.LookAt(player);
-            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+            return;
         }
+
+        Vector3 direction = player.position - transform.position;
+        direction.y = 0f;
+
+        if (direction != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(direction);
+        }
+
+        transform.position += direction.normalized * speed * Time.deltaTime;
     }
 
     public override void Attack()
     {
-        Debug.Log("Enemy attacking with bite!");
+        Debug.Log("The Enemy attacks with a bite!");
     }
 }

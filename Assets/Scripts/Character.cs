@@ -11,7 +11,7 @@ public abstract class Character : MonoBehaviour
 
     public virtual void Attack()
     {
-        Debug.Log("Character attacking!");
+        Debug.Log("The character attacks!");
     }
 
     public void TakeDamage(int damage)
@@ -29,5 +29,7 @@ public abstract class Character : MonoBehaviour
     protected virtual void Die()
     {
         Debug.Log(gameObject.name + " is dead!");
+
+        Destroy(gameObject);
     }
 }
