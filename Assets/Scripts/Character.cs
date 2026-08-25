@@ -18,6 +18,8 @@ public abstract class Character : MonoBehaviour
     {
         health -= damage;
 
+        health = Mathf.Max(health, 0);
+
         Debug.Log(gameObject.name + " have " + health + " HP");
 
         if (health <= 0)

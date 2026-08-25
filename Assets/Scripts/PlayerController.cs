@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerController : Character
 {
     [SerializeField] private float speed = 5f;
+
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform projectileSpawnPoint;
 
@@ -30,7 +31,7 @@ public class PlayerController : Character
 
     public override void Attack()
     {
-        Debug.Log("The Player launches a projectile!");
+        Debug.Log("Player launches a projectile!");
 
         GameObject projectile = Instantiate(
             projectilePrefab,
@@ -38,8 +39,24 @@ public class PlayerController : Character
             Quaternion.identity
         );
 
-        Projectile projectileScript = projectile.GetComponent<Projectile>();
+        Projectile projectileScript =
+            projectile.GetComponent<Projectile>();
 
         projectileScript.SetDirection(lastMovementDirection);
+    }
+
+    protected override void Die()
+    {
+        Debug.Log("Player is dead!");
+
+        GameManager gameManager =
+            FindFirstObjectByType<GameManager>();
+
+        if (gameManager != null)
+        {
+            gameManager.GameOver();
+        }
+
+        gameObject.SetActive(false);
     }
 }
