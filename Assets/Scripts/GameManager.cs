@@ -3,7 +3,6 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private PlayerController player;
-    [SerializeField] private Enemy enemy;
 
     [Header("Enemy Spawning")]
     [SerializeField] private GameObject enemyPrefab;
@@ -11,23 +10,26 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float spawnDistance = 10f;
 
     private float spawnTimer;
+    private bool gameOver;
+    private int enemiesKilled = 0;
+
+    public int EnemiesKilled
+    {
+        get { return enemiesKilled; }
+    }
 
     void Start()
     {
-        Debug.Log("=== PROGRAM OOP START===");
-
-        Debug.Log("Player HP: " + player.Health);
-        Debug.Log("Enemy HP: " + enemy.Health);
-
-        Character character1 = player;
-        Character character2 = enemy;
-
-        //character1.Attack();
-        character2.Attack();
+        Debug.Log("=== PROGRAM OOP START ===");
     }
 
     void Update()
     {
+        if (gameOver)
+        {
+            return;
+        }
+
         spawnTimer += Time.deltaTime;
 
         if (spawnTimer >= spawnInterval)
@@ -55,24 +57,41 @@ public class GameManager : MonoBehaviour
         switch (direction)
         {
             case 0:
-                // Nord
                 return player.transform.position +
                        new Vector3(0, 0, spawnDistance);
 
             case 1:
-                // Sud
                 return player.transform.position +
                        new Vector3(0, 0, -spawnDistance);
 
             case 2:
-                // Est
                 return player.transform.position +
                        new Vector3(spawnDistance, 0, 0);
 
             default:
-                // Ovest
                 return player.transform.position +
                        new Vector3(-spawnDistance, 0, 0);
         }
+    }
+
+    public void EnemyKilled()
+    {
+        enemiesKilled++;
+
+        Debug.Log("Enemies Killed: " + enemiesKilled);
+    }
+
+    public void GameOver()
+    {
+        if (gameOver)
+        {
+            return;
+        }
+
+        gameOver = true;
+
+        Debug.Log("======================");
+        Debug.Log("      GAME OVER");
+        Debug.Log("======================");
     }
 }

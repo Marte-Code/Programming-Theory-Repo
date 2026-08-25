@@ -3,7 +3,8 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed = 10f;
-    [SerializeField] private float lifeTime = 6f;
+    [SerializeField] private float lifeTime = 3f;
+    [SerializeField] private int damage = 25;
 
     private Vector3 direction;
 
@@ -20,5 +21,19 @@ public class Projectile : MonoBehaviour
     void Update()
     {
         transform.Translate(direction * speed * Time.deltaTime);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Enemy enemy = other.GetComponentInParent<Enemy>();
+
+        if (enemy != null)
+        {
+            Debug.Log("Projectile hit the enemy!");
+
+            enemy.TakeDamage(damage);
+
+            Destroy(gameObject);
+        }
     }
 }

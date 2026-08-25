@@ -11,12 +11,14 @@ public abstract class Character : MonoBehaviour
 
     public virtual void Attack()
     {
-        Debug.Log("Character attacking!");
+        Debug.Log("The character attacks!");
     }
 
     public void TakeDamage(int damage)
     {
         health -= damage;
+
+        health = Mathf.Max(health, 0);
 
         Debug.Log(gameObject.name + " have " + health + " HP");
 
@@ -29,5 +31,7 @@ public abstract class Character : MonoBehaviour
     protected virtual void Die()
     {
         Debug.Log(gameObject.name + " is dead!");
+
+        Destroy(gameObject);
     }
 }
